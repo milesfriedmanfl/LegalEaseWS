@@ -1,0 +1,35 @@
+# Ignore node_modules to avoid copying dependencies that will be installed in the Docker container
+node_modules
+
+# Ignore log files
+*.log
+
+# Ignore build artifacts
+dist
+build
+*.tgz
+
+# Ignore environment variable files
+.env
+.env.*.local
+
+# Ignore test files and coverage reports
+coverage
+*.spec.ts
+*.test.ts
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.pid
+*.seed
+
+# Ignore IDE/editor configuration
+.vscode
+.idea
+*.sublime-workspace
+
+# Ignore local Docker files (if any)
+docker-compose.yml
+docker-compose.override.yml
+*.sh

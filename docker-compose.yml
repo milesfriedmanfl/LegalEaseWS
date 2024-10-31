@@ -1,0 +1,53 @@
+services:
+    db:
+        build: ./database
+        container_name: wiki_search-db
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: wiki_search
+            MYSQL_USER: ${MYSQL_APP_USER}
+            MYSQL_PASSWORD: ${MYSQL_APP_PASSWORD}
+            # For display purposes, but just going to use .env vals for this
+            # MYSQL_ROOT_PASSWORD_FILE: /secrets/mysql_root_password_secret
+        volumes:
+            - wiki_search_db_data:/var/lib/mysql
+            - ./database/db-init-scripts:/docker-entrypoint-initdb.d
+        ports:
+            - '${MYSQL_PORT}:3306'
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        restart: unless-stopped
+        env_file:
+            - .env
+        # For display purposes, but just going to use .env vals for this
+        # secrets:
+        #   - mysql_root_password_secret
+    backend:
+        build: ./backend
+        container_name: wiki_search-backend
+        environment:
+            MYSQL_HOST: db
+            MYSQL_PORT: ${MYSQL_PORT}
+            MYSQL_APP_USER: ${MYSQL_APP_USER}
+            MYSQL_APP_PASSWORD: ${MYSQL_APP_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            SERVER_PORT: ${SERVER_PORT}
+            SEQUELIZE_DB_SYNC: ${SEQUELIZE_DB_SYNC}
+            NODE_ENV: ${NODE_ENV}
+        ports:
+            - '${SERVER_PORT}:${SERVER_PORT}'
+        depends_on:
+            - db # Ensures the database container starts before the backend
+        restart: unless-stopped
+        env_file:
+            - .env
+
+volumes:
+    wiki_search_db_data:
+# For display purposes, but just going to use .env vals for this
+# secrets:
+#   mysql_root_password_secret:
+#     file: ./secrets/mysql_root_password

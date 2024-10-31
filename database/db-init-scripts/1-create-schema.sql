@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS wiki_search;
+USE wiki_search;
+
+CREATE TABLE IF NOT EXISTS search_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    search_term VARCHAR(255) NOT NULL,
+    search_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
