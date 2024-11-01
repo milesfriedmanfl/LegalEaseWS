@@ -1,7 +1,7 @@
 // const API_URL = `${process.env.REACT_APP_BASE_API_URL}:${process.env.REACT_APP_SERVER_PORT}`; TODO -- debug this more
 console.log(`process.env.REACT_APP_BASE_API_URL = ${process.env.REACT_APP_BASE_API_URL}`);
 console.log(`process.env.REACT_APP_SERVER_PORT = ${process.env.REACT_APP_SERVER_PORT}`);
-const API_URL = `http://localhost:3002`;
+const API_URL = `http://localhost:3001`;
 
 export interface SearchResult {
 	searchInfo: {
