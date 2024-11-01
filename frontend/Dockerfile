@@ -13,11 +13,14 @@ RUN npm install
 # Copy rest of application code
 COPY . .
 
-# Build the application
+# Build the React app
 RUN npm run build
 
-# Expose port for Nest server
-EXPOSE 3001
+# Install serve to serve the build
+RUN npm install -g serve
 
-# Command to start the Nest server
-CMD ["npm", "run", "start:prod"]
+# Expose the port of app
+EXPOSE 3002
+
+# Command to run the app using serve
+CMD ["sh", "-c", "PORT=3002 serve -s build"]

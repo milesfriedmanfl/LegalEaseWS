@@ -44,6 +44,19 @@ services:
         restart: unless-stopped
         env_file:
             - .env
+    frontend:
+        build: ./frontend
+        container_name: wiki_search-frontend
+        environment:
+            REACT_APP_BASE_API_URL: http://localhost
+            REACT_APP_SERVER_PORT: ${REACT_APP_SERVER_PORT}  
+        ports:
+            - '${FRONTEND_PORT}:${FRONTEND_PORT}'
+        depends_on:
+            - backend # Ensures the backend container starts before the frontend
+        restart: unless-stopped
+        env_file:
+            - .env  # Load any other environment variables from your .env file
 
 volumes:
     wiki_search_db_data:
